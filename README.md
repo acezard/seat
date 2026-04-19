@@ -8,11 +8,11 @@ A Vite + React + TypeScript starter project.
 2. Install dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 3. Start the dev server:
 
 ```bash
-npm run dev
+pnpm dev
 ```
