@@ -124,4 +124,44 @@ export const mockRequests: Request[] = [
     },
     activityLog: ["Email ingested into support queue"],
   },
+  {
+    id: "req-007",
+    title: "Request for software installation on company laptop",
+    requester: "Emma Wilson",
+    source: "portal",
+    text: "I need to install Adobe Creative Suite on my company laptop for an upcoming project. Can someone assist with the installation process?",
+    status: "pending",
+    createdAt: now - 120 * minutes,
+    context: {
+      department: "Design",
+      manager: "Oliver Smith",
+      apps: ["Adobe Creative Cloud", "Slack", "Trello"],
+      device: 'MacBook Pro 13"',
+      history: [
+        "Software request submitted in portal",
+        "No previous software installations",
+      ],
+    },
+    activityLog: ["Request submitted in employee portal"],
+  },
+  {
+    id: "req-008",
+    title: "Issue with VPN connectivity on remote work setup",
+    requester: "Sophia Lee",
+    source: "slack",
+    text: "I am having trouble connecting to the company VPN from my home network. I need to access internal resources for my work, but the connection keeps dropping.",
+    status: "pending",
+    createdAt: now - 25 * minutes,
+    context: {
+      department: "IT Support",
+      manager: "Ethan Brown",
+      apps: ["VPN Client", "Slack", "Remote Desktop"],
+      device: "Lenovo ThinkPad T14",
+      history: [
+        "VPN client installed last month",
+        "No previous connectivity issues",
+      ],
+    },
+    activityLog: ["Request received via Slack"],
+  }
 ]
