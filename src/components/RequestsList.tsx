@@ -1,10 +1,4 @@
-import {
-  Box,
-  Chip,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Box, Chip, Paper, Stack, Typography } from "@mui/material"
 import { formatRelativeTime, formatSourceLabel } from "../lib/format"
 import type { Request, RequestStatus } from "../types/request"
 
@@ -14,12 +8,14 @@ type RequestsListProps = {
   onSelect: (requestId: string) => void
 }
 
-const statusChipPalette: Record<RequestStatus, { bg: string; color: string }> = {
-  pending: { bg: "#ece4d8", color: "#6f5c39" },
-  triaged: { bg: "#dceadf", color: "#2d6a43" },
-  resolved: { bg: "#d8ebe6", color: "#146357" },
-  escalated: { bg: "#f1ddd8", color: "#8c453b" },
-}
+const statusChipPalette: Record<RequestStatus, { bg: string; color: string }> =
+  {
+    pending: { bg: "#ece4d8", color: "#6f5c39" },
+    triaged: { bg: "#dceadf", color: "#2d6a43" },
+    resolved: { bg: "#d8ebe6", color: "#146357" },
+    escalated: { bg: "#f1ddd8", color: "#8c453b" },
+    manual: { bg: "#ede4f4", color: "#6b4a87" },
+  }
 
 export function RequestsList({
   requests,
@@ -51,14 +47,25 @@ export function RequestsList({
           sx={{ justifyContent: "space-between" }}
         >
           <Box>
-            <Typography variant="overline" sx={{ color: "text.secondary", fontWeight: 700, letterSpacing: "0.16em" }}>
+            <Typography
+              variant="overline"
+              sx={{
+                color: "text.secondary",
+                fontWeight: 700,
+                letterSpacing: "0.16em",
+              }}
+            >
               Queue
             </Typography>
             <Typography variant="h6" sx={{ mt: 0.5, fontWeight: 700 }}>
               Requests
             </Typography>
           </Box>
-          <Chip label={`${requests.length} open`} size="small" sx={{ bgcolor: "#e9e0d1", color: "#5e543f", fontWeight: 700 }} />
+          <Chip
+            label={`${requests.length} open`}
+            size="small"
+            sx={{ bgcolor: "#e9e0d1", color: "#5e543f", fontWeight: 700 }}
+          />
         </Stack>
 
         <Stack
@@ -90,7 +97,8 @@ export function RequestsList({
                   boxShadow: isSelected
                     ? "0 14px 32px rgba(48, 92, 73, 0.16)"
                     : "none",
-                  transition: "transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease",
+                  transition:
+                    "transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease",
                   "&:hover": {
                     transform: "translateY(-1px)",
                     borderColor: isSelected ? "#305c49" : "#9d8b69",
@@ -114,12 +122,17 @@ export function RequestsList({
                         color: statusChipPalette[request.status].color,
                       }}
                     />
-                    <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "text.secondary" }}
+                    >
                       {formatRelativeTime(request.createdAt)}
                     </Typography>
                   </Stack>
 
-                  <Typography sx={{ fontWeight: 700 }}>{request.title}</Typography>
+                  <Typography sx={{ fontWeight: 700 }}>
+                    {request.title}
+                  </Typography>
                   <Typography variant="body2" sx={{ color: "text.secondary" }}>
                     {request.requester}
                   </Typography>
@@ -129,11 +142,19 @@ export function RequestsList({
                     spacing={1.5}
                     sx={{ justifyContent: "space-between", flexWrap: "wrap" }}
                   >
-                    <Typography variant="caption" sx={{ color: "text.secondary" }}>
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "text.secondary" }}
+                    >
                       {formatSourceLabel(request.source)}
                     </Typography>
-                    <Typography variant="caption" sx={{ color: "text.secondary" }}>
-                      {request.triage ? request.triage.priority : "Awaiting AI triage"}
+                    <Typography
+                      variant="caption"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {request.triage
+                        ? request.triage.priority
+                        : "Awaiting AI triage"}
                     </Typography>
                   </Stack>
                 </Stack>

@@ -163,5 +163,5 @@ export const mockRequests: Request[] = [
       ],
     },
     activityLog: ["Request received via Slack"],
-  }
+  },
 ]

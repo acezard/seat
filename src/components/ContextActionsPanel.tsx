@@ -1,16 +1,13 @@
 import type { ReactNode } from "react"
-import {
-  Box,
-  Button,
-  Chip,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material"
+import { Box, Button, Chip, Paper, Stack, Typography } from "@mui/material"
 import type { Request } from "../types/request"
+import { formatRelativeTime } from "../lib/format"
 
 type ContextActionsPanelProps = {
   request: Request | null
+  onConfirmAction: (requestId: string) => void
+  onEscalate: (requestId: string) => void
+  onMarkManual: (requestId: string) => void
 }
 
 function SideSection({
@@ -47,12 +44,26 @@ function SideSection({
           >
             <Box>
               {eyebrow ? (
-                <Typography variant="overline" sx={{ color: "text.secondary", fontWeight: 700, letterSpacing: "0.16em" }}>
+                <Typography
+                  variant="overline"
+                  sx={{
+                    color: "text.secondary",
+                    fontWeight: 700,
+                    letterSpacing: "0.16em",
+                  }}
+                >
                   {eyebrow}
                 </Typography>
               ) : null}
               {title ? (
-                <Typography variant="h6" sx={{ mt: eyebrow ? 0.5 : 0, fontSize: "1.05rem", fontWeight: 700 }}>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    mt: eyebrow ? 0.5 : 0,
+                    fontSize: "1.05rem",
+                    fontWeight: 700,
+                  }}
+                >
                   {title}
                 </Typography>
               ) : null}
@@ -66,7 +77,12 @@ function SideSection({
   )
 }
 
-export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
+export function ContextActionsPanel({
+  request,
+  onConfirmAction,
+  onEscalate,
+  onMarkManual,
+}: ContextActionsPanelProps) {
   if (!request) {
     return (
       <Paper
@@ -80,16 +96,26 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
           bgcolor: "rgba(255, 251, 246, 0.84)",
         }}
       >
-        <Stack spacing={1.5} sx={{ minHeight: "100%", justifyContent: "center" }}>
-          <Typography variant="overline" sx={{ color: "text.secondary", fontWeight: 700, letterSpacing: "0.16em" }}>
+        <Stack
+          spacing={1.5}
+          sx={{ minHeight: "100%", justifyContent: "center" }}
+        >
+          <Typography
+            variant="overline"
+            sx={{
+              color: "text.secondary",
+              fontWeight: 700,
+              letterSpacing: "0.16em",
+            }}
+          >
             Context + Actions
           </Typography>
           <Typography variant="h5" sx={{ fontWeight: 700 }}>
             Awaiting selection
           </Typography>
           <Typography sx={{ color: "text.secondary" }}>
-            The enrichment panel, workflow controls, metrics, and activity timeline will appear here
-            once a request is selected.
+            The enrichment panel, workflow controls, metrics, and activity
+            timeline will appear here once a request is selected.
           </Typography>
         </Stack>
       </Paper>
@@ -111,32 +137,52 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
         flexDirection: "column",
       }}
     >
-      <Stack spacing={2} sx={{ minHeight: 0, overflowY: { md: "auto" }, pr: { md: 0.5 } }}>
+      <Stack
+        spacing={2}
+        sx={{ minHeight: 0, overflowY: { md: "auto" }, pr: { md: 0.5 } }}
+      >
         <SideSection eyebrow="Context" title={request.context.department}>
           <Box
             sx={{
               display: "grid",
               gap: 1.5,
-              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, minmax(0, 1fr))" },
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, minmax(0, 1fr))",
+              },
             }}
           >
             <Box>
               <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 Manager
               </Typography>
-              <Typography sx={{ fontWeight: 700 }}>{request.context.manager}</Typography>
+              <Typography sx={{ fontWeight: 700 }}>
+                {request.context.manager}
+              </Typography>
             </Box>
             <Box>
               <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 Device
               </Typography>
-              <Typography sx={{ fontWeight: 700 }}>{request.context.device}</Typography>
+              <Typography sx={{ fontWeight: 700 }}>
+                {request.context.device}
+              </Typography>
             </Box>
           </Box>
 
-          <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap" }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            useFlexGap
+            sx={{ flexWrap: "wrap" }}
+          >
             {request.context.apps.map((app) => (
-              <Chip key={app} label={app} size="small" sx={{ bgcolor: "#efe6d8", color: "#5c4d32", fontWeight: 700 }} />
+              <Chip
+                key={app}
+                label={app}
+                size="small"
+                sx={{ bgcolor: "#efe6d8", color: "#5c4d32", fontWeight: 700 }}
+              />
             ))}
           </Stack>
         </SideSection>
@@ -144,19 +190,38 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
         <SideSection
           title="Workflow actions"
           dashed
-          action={<Chip label="Scaffold" size="small" sx={{ bgcolor: "#e9e0d1", color: "#5e543f", fontWeight: 700 }} />}
+          action={
+            <Chip
+              label={request.triage ? "Ready" : "Awaiting triage"}
+              size="small"
+              sx={{ bgcolor: "#e9e0d1", color: "#5e543f", fontWeight: 700 }}
+            />
+          }
         >
           <Typography sx={{ color: "text.secondary" }}>
-            Suggested action logic will key off the triage output in the next pass.
+            Workflow actions use the reviewed triage and reply draft for the
+            selected request.
           </Typography>
           <Stack spacing={1.25}>
-            <Button variant="contained" disabled>
+            <Button
+              variant="contained"
+              disabled={!request.triage || !request.replyDraft}
+              onClick={() => onConfirmAction(request.id)}
+            >
               Confirm action
             </Button>
-            <Button variant="outlined" disabled>
+            <Button
+              variant="outlined"
+              disabled={!request.triage}
+              onClick={() => onEscalate(request.id)}
+            >
               Escalate
             </Button>
-            <Button variant="text" disabled>
+            <Button
+              variant="text"
+              disabled={!request.triage}
+              onClick={() => onMarkManual(request.id)}
+            >
               Mark as manual
             </Button>
           </Stack>
@@ -167,36 +232,60 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
             <Stack
               direction="row"
               spacing={2}
-              sx={{ justifyContent: "space-between", pb: 1.25, borderBottom: "1px solid #eee3d6" }}
+              sx={{
+                justifyContent: "space-between",
+                pb: 1.25,
+                borderBottom: "1px solid #eee3d6",
+              }}
             >
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 Time to triage
               </Typography>
-              <Typography sx={{ fontWeight: 700 }}>Pending</Typography>
+              <Typography sx={{ fontWeight: 700 }}>
+                {request.triagedAt
+                  ? formatRelativeTime(request.triagedAt)
+                  : "Pending"}
+              </Typography>
             </Stack>
             <Stack
               direction="row"
               spacing={2}
-              sx={{ justifyContent: "space-between", pb: 1.25, borderBottom: "1px solid #eee3d6" }}
+              sx={{
+                justifyContent: "space-between",
+                pb: 1.25,
+                borderBottom: "1px solid #eee3d6",
+              }}
             >
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 Resolution status
               </Typography>
-              <Typography sx={{ fontWeight: 700, textTransform: "capitalize" }}>{request.status}</Typography>
+              <Typography sx={{ fontWeight: 700, textTransform: "capitalize" }}>
+                {request.status}
+              </Typography>
             </Stack>
-            <Stack direction="row" spacing={2} sx={{ justifyContent: "space-between" }}>
+            <Stack
+              direction="row"
+              spacing={2}
+              sx={{ justifyContent: "space-between" }}
+            >
               <Typography variant="body2" sx={{ color: "text.secondary" }}>
                 AI confidence
               </Typography>
               <Typography sx={{ fontWeight: 700 }}>
-                {request.triage ? request.triage.confidence : "Not analyzed"}
+                {request.triage
+                  ? request.triage.confidence.toFixed(2)
+                  : "Not analyzed"}
               </Typography>
             </Stack>
           </Stack>
         </SideSection>
 
         <SideSection eyebrow="Activity Log">
-          <Stack component="ul" spacing={1.25} sx={{ listStyle: "none", p: 0, m: 0 }}>
+          <Stack
+            component="ul"
+            spacing={1.25}
+            sx={{ listStyle: "none", p: 0, m: 0 }}
+          >
             {request.activityLog.map((entry) => (
               <Stack
                 key={entry}

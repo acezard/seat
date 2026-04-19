@@ -3,18 +3,175 @@ import { Box, Container, Stack, Typography } from "@mui/material"
 import { ContextActionsPanel } from "./components/ContextActionsPanel"
 import { RequestDetailPanel } from "./components/RequestDetailPanel"
 import { RequestsList } from "./components/RequestsList"
+import { mockAnswers } from "./data/mockAnswers"
+import { mockReplies } from "./data/mockReplies"
 import { mockRequests } from "./data/mockRequests"
+import type { Request, Triage } from "./types/request"
 
 function App() {
-  const [requests] = useState(mockRequests)
+  const [requests, setRequests] = useState(mockRequests)
   const [selectedId, setSelectedId] = useState<string | null>(
     mockRequests[0]?.id ?? null,
+  )
+  const [analyzingRequestId, setAnalyzingRequestId] = useState<string | null>(
+    null,
+  )
+  const [generatingReplyRequestId, setGeneratingReplyRequestId] = useState<
+    string | null
+  >(null)
+  const [analysisErrorById, setAnalysisErrorById] = useState<
+    Record<string, string>
+  >({})
+  const [replyErrorById, setReplyErrorById] = useState<Record<string, string>>(
+    {},
   )
 
   const selectedRequest = useMemo(
     () => requests.find((request) => request.id === selectedId) ?? null,
     [requests, selectedId],
   )
+
+  function handleAnalyze(requestId: string) {
+    const answer = mockAnswers[requestId]
+
+    if (!answer || analyzingRequestId) {
+      return
+    }
+
+    setAnalysisErrorById((current) => ({ ...current, [requestId]: "" }))
+    setAnalyzingRequestId(requestId)
+
+    window.setTimeout(() => {
+      setRequests((currentRequests) =>
+        currentRequests.map((request) => {
+          if (request.id !== requestId || request.triage) {
+            return request
+          }
+
+          return {
+            ...request,
+            status: "triaged",
+            triage: answer,
+            triagedAt: Date.now(),
+            activityLog: [...request.activityLog, "AI triage completed"],
+          }
+        }),
+      )
+      setAnalyzingRequestId((current) =>
+        current === requestId ? null : current,
+      )
+    }, 700)
+  }
+
+  function handleGenerateReply(requestId: string) {
+    const reply = mockReplies[requestId]
+
+    if (!reply || generatingReplyRequestId) {
+      return
+    }
+
+    setReplyErrorById((current) => ({ ...current, [requestId]: "" }))
+    setGeneratingReplyRequestId(requestId)
+
+    window.setTimeout(() => {
+      setRequests((currentRequests) =>
+        currentRequests.map((request) => {
+          if (
+            request.id !== requestId ||
+            request.replyDraft ||
+            !request.triage
+          ) {
+            return request
+          }
+
+          return {
+            ...request,
+            replyDraft: reply,
+            activityLog: [...request.activityLog, "Reply draft generated"],
+          }
+        }),
+      )
+      setGeneratingReplyRequestId((current) =>
+        current === requestId ? null : current,
+      )
+    }, 600)
+  }
+
+  function handleTriageChange<K extends keyof Triage>(
+    requestId: string,
+    field: K,
+    value: Triage[K],
+  ) {
+    setRequests((currentRequests) =>
+      currentRequests.map((request) => {
+        if (request.id !== requestId || !request.triage) {
+          return request
+        }
+
+        return {
+          ...request,
+          triage: {
+            ...request.triage,
+            [field]: value,
+          },
+        }
+      }),
+    )
+  }
+
+  function handleReplyChange(requestId: string, value: string) {
+    setRequests((currentRequests) =>
+      currentRequests.map((request) =>
+        request.id === requestId
+          ? {
+              ...request,
+              replyDraft: value,
+            }
+          : request,
+      ),
+    )
+  }
+
+  function updateRequest(
+    requestId: string,
+    updater: (request: Request) => Request,
+  ) {
+    setRequests((currentRequests) =>
+      currentRequests.map((request) =>
+        request.id === requestId ? updater(request) : request,
+      ),
+    )
+  }
+
+  function handleConfirmAction(requestId: string) {
+    updateRequest(requestId, (request) => ({
+      ...request,
+      status: "resolved",
+      activityLog: [
+        ...request.activityLog,
+        "Action confirmed and request resolved",
+      ],
+    }))
+  }
+
+  function handleEscalate(requestId: string) {
+    updateRequest(requestId, (request) => ({
+      ...request,
+      status: "escalated",
+      activityLog: [
+        ...request.activityLog,
+        `Escalated to ${request.triage?.ownerTeam ?? "specialist support"}`,
+      ],
+    }))
+  }
+
+  function handleMarkManual(requestId: string) {
+    updateRequest(requestId, (request) => ({
+      ...request,
+      status: "manual",
+      activityLog: [...request.activityLog, "Marked for manual review"],
+    }))
+  }
 
   return (
     <Box
@@ -38,7 +195,11 @@ function App() {
             <Box>
               <Typography
                 variant="overline"
-                sx={{ color: "text.secondary", fontWeight: 700, letterSpacing: "0.18em" }}
+                sx={{
+                  color: "text.secondary",
+                  fontWeight: 700,
+                  letterSpacing: "0.18em",
+                }}
               >
                 AI Request Review Panel
               </Typography>
@@ -72,8 +233,33 @@ function App() {
               selectedId={selectedId}
               onSelect={setSelectedId}
             />
-            <RequestDetailPanel request={selectedRequest} />
-            <ContextActionsPanel request={selectedRequest} />
+            <RequestDetailPanel
+              request={selectedRequest}
+              onAnalyze={handleAnalyze}
+              onGenerateReply={handleGenerateReply}
+              onTriageChange={handleTriageChange}
+              onReplyChange={handleReplyChange}
+              isAnalyzing={selectedRequest?.id === analyzingRequestId}
+              isGeneratingReply={
+                selectedRequest?.id === generatingReplyRequestId
+              }
+              analysisError={
+                selectedRequest
+                  ? (analysisErrorById[selectedRequest.id] ?? null)
+                  : null
+              }
+              replyError={
+                selectedRequest
+                  ? (replyErrorById[selectedRequest.id] ?? null)
+                  : null
+              }
+            />
+            <ContextActionsPanel
+              request={selectedRequest}
+              onConfirmAction={handleConfirmAction}
+              onEscalate={handleEscalate}
+              onMarkManual={handleMarkManual}
+            />
           </Box>
         </Stack>
       </Container>

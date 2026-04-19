@@ -1,4 +1,9 @@
-export type RequestStatus = "pending" | "triaged" | "resolved" | "escalated"
+export type RequestStatus =
+  | "pending"
+  | "triaged"
+  | "resolved"
+  | "escalated"
+  | "manual"
 
 export type Source = "slack" | "email" | "portal"
 
@@ -31,6 +36,7 @@ export type Request = {
   createdAt: number
   context: Context
   triage?: Triage
+  triagedAt?: number
   replyDraft?: string
   activityLog: string[]
 }
