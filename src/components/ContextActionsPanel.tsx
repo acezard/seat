@@ -73,7 +73,7 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
         elevation={0}
         sx={{
           p: 3,
-          height: { md: "72vh" },
+          height: { md: "calc(100vh - 220px)" },
           borderRadius: 4,
           border: "1px solid",
           borderColor: "divider",
@@ -101,7 +101,7 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
       elevation={0}
       sx={{
         p: 2.5,
-        height: { md: "72vh" },
+        height: { md: "calc(100vh - 220px)" },
         borderRadius: 4,
         border: "1px solid",
         borderColor: "divider",
@@ -203,11 +203,10 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
                 component="li"
                 direction="row"
                 spacing={1.25}
-                sx={{ alignItems: "flex-start" }}
+                sx={{ alignItems: "center" }}
               >
                 <Box
                   sx={{
-                    mt: "9px",
                     width: 8,
                     height: 8,
                     borderRadius: "50%",

@@ -69,7 +69,7 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
         elevation={0}
         sx={{
           p: 3,
-          height: { md: "72vh" },
+          height: { md: "calc(100vh - 220px)" },
           borderRadius: 4,
           border: "1px solid",
           borderColor: "divider",
@@ -97,7 +97,7 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
       elevation={0}
       sx={{
         p: 2.5,
-        height: { md: "72vh" },
+        height: { md: "calc(100vh - 220px)" },
         borderRadius: 4,
         border: "1px solid",
         borderColor: "divider",

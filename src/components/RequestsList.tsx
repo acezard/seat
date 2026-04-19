@@ -38,8 +38,8 @@ export function RequestsList({
         backdropFilter: "blur(12px)",
         position: { md: "sticky" },
         top: { md: 32 },
-        height: { md: "72vh" },
-        maxHeight: { md: "72vh" },
+        height: { md: "calc(100vh - 220px)" },
+        maxHeight: { md: "calc(100vh - 220px)" },
         display: "flex",
         flexDirection: "column",
       }}
