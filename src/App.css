@@ -1,0 +1,61 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.app {
+  display: grid;
+  gap: 2rem;
+  justify-items: center;
+}
+
+.logos {
+  display: flex;
+  gap: 2rem;
+}
+
+.logo {
+  height: 6rem;
+  padding: 1.5rem;
+  transition: filter 300ms;
+  will-change: filter;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2rem #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2rem #61dafbaa);
+}
+
+.card {
+  padding: 2rem;
+}
+
+.card button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 250ms;
+}
+
+.card button:hover {
+  border-color: #646cff;
+}
+
+.card button:focus,
+.card button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+.read-the-docs {
+  color: #888;
+}
