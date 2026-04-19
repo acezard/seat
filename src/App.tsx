@@ -1,34 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useMemo, useState } from 'react'
 import './App.css'
+import { ContextActionsPanel } from './components/ContextActionsPanel'
+import { RequestDetailPanel } from './components/RequestDetailPanel'
+import { RequestsList } from './components/RequestsList'
+import { mockRequests } from './data/mockRequests'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [requests] = useState(mockRequests)
+  const [selectedId, setSelectedId] = useState<string | null>(mockRequests[0]?.id ?? null)
+
+  const selectedRequest = useMemo(
+    () => requests.find((request) => request.id === selectedId) ?? null,
+    [requests, selectedId],
+  )
 
   return (
-    <div className="app">
-      <div className="logos">
-        <a href="https://vite.dev" target="_blank" rel="noreferrer">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button type="button" onClick={() => setCount((value) => value + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+    <main className="app-shell">
+      <header className="app-header">
+        <div>
+          <p className="eyebrow">AI Request Review Panel</p>
+          <h1>Support desk scaffold</h1>
+        </div>
+        <p className="app-summary">
+          Structural implementation only: queue, detail, context, and placeholder AI workflow surfaces are ready for the next pass.
         </p>
-      </div>
-      <p className="read-the-docs">
-        Click the Vite and React logos to learn more
-      </p>
-    </div>
+      </header>
+
+      <section className="workspace-grid">
+        <RequestsList requests={requests} selectedId={selectedId} onSelect={setSelectedId} />
+        <RequestDetailPanel request={selectedRequest} />
+        <ContextActionsPanel request={selectedRequest} />
+      </section>
+    </main>
   )
 }
 
