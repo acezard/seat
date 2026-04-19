@@ -1,5 +1,5 @@
-import { formatSourceLabel, formatRelativeTime } from '../lib/format'
-import type { Request } from '../types/request'
+import { formatSourceLabel, formatRelativeTime } from "../lib/format"
+import type { Request } from "../types/request"
 
 type RequestDetailPanelProps = {
   request: Request | null
@@ -12,7 +12,10 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
         <div className="empty-state">
           <p className="eyebrow">Request Detail</p>
           <h2>Select a request</h2>
-          <p>Choose an item from the queue to load the AI triage, editable review surface, and reply composer scaffold.</p>
+          <p>
+            Choose an item from the queue to load the AI triage, editable review
+            surface, and reply composer scaffold.
+          </p>
         </div>
       </section>
     )
@@ -25,7 +28,9 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
           <p className="eyebrow">Request Detail</p>
           <h2>{request.title}</h2>
         </div>
-        <span className={`badge badge-status badge-${request.status}`}>{request.status}</span>
+        <span className={`badge badge-status badge-${request.status}`}>
+          {request.status}
+        </span>
       </header>
 
       <div className="detail-meta">
@@ -46,7 +51,10 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
             Analyze
           </button>
         </div>
-        <p>This scaffold reserves space for the async analysis flow, loading/error states, and AI-generated summary.</p>
+        <p>
+          This scaffold reserves space for the async analysis flow,
+          loading/error states, and AI-generated summary.
+        </p>
       </section>
 
       <section className="content-block scaffold-block">
@@ -57,7 +65,11 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
         <div className="form-scaffold">
           <label>
             Summary
-            <textarea value="" placeholder="AI-generated summary will appear here" readOnly />
+            <textarea
+              value=""
+              placeholder="AI-generated summary will appear here"
+              readOnly
+            />
           </label>
           <div className="form-grid">
             <label>
@@ -91,7 +103,11 @@ export function RequestDetailPanel({ request }: RequestDetailPanelProps) {
             Generate reply
           </button>
         </div>
-        <textarea value="" placeholder="Generated reply draft will be editable here" readOnly />
+        <textarea
+          value=""
+          placeholder="Generated reply draft will be editable here"
+          readOnly
+        />
       </section>
     </section>
   )

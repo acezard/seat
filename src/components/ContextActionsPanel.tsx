@@ -1,4 +1,4 @@
-import type { Request } from '../types/request'
+import type { Request } from "../types/request"
 
 type ContextActionsPanelProps = {
   request: Request | null
@@ -11,7 +11,10 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
         <div className="empty-state">
           <p className="eyebrow">Context + Actions</p>
           <h2>Awaiting selection</h2>
-          <p>The enrichment panel, workflow controls, metrics, and activity timeline will appear here once a request is selected.</p>
+          <p>
+            The enrichment panel, workflow controls, metrics, and activity
+            timeline will appear here once a request is selected.
+          </p>
         </div>
       </section>
     )
@@ -47,7 +50,10 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
           <h3>Workflow actions</h3>
           <span className="badge badge-neutral">Scaffold</span>
         </div>
-        <p>Suggested action logic will key off the triage output in the next pass.</p>
+        <p>
+          Suggested action logic will key off the triage output in the next
+          pass.
+        </p>
         <div className="button-stack">
           <button type="button" disabled>
             Confirm action
@@ -75,7 +81,9 @@ export function ContextActionsPanel({ request }: ContextActionsPanelProps) {
           </li>
           <li>
             <span>AI confidence</span>
-            <strong>{request.triage ? request.triage.confidence : 'Not analyzed'}</strong>
+            <strong>
+              {request.triage ? request.triage.confidence : "Not analyzed"}
+            </strong>
           </li>
         </ul>
       </div>

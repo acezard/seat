@@ -1,5 +1,8 @@
 export function formatRelativeTime(timestamp: number): string {
-  const diffMinutes = Math.max(1, Math.round((Date.now() - timestamp) / (60 * 1000)))
+  const diffMinutes = Math.max(
+    1,
+    Math.round((Date.now() - timestamp) / (60 * 1000)),
+  )
 
   if (diffMinutes < 60) {
     return `${diffMinutes}m ago`

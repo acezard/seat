@@ -2,8 +2,16 @@
   min-height: 100vh;
   padding: 32px;
   background:
-    radial-gradient(circle at top left, rgba(33, 87, 67, 0.18), transparent 28%),
-    radial-gradient(circle at top right, rgba(181, 110, 47, 0.2), transparent 22%),
+    radial-gradient(
+      circle at top left,
+      rgba(33, 87, 67, 0.18),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at top right,
+      rgba(181, 110, 47, 0.2),
+      transparent 22%
+    ),
     linear-gradient(180deg, #f4efe6 0%, #efe7db 100%);
   color: #1e2421;
 }
@@ -34,7 +42,10 @@
   margin: 0 auto;
   display: grid;
   gap: 20px;
-  grid-template-columns: minmax(260px, 0.9fr) minmax(420px, 1.6fr) minmax(300px, 1.1fr);
+  grid-template-columns: minmax(260px, 0.9fr) minmax(420px, 1.6fr) minmax(
+      300px,
+      1.1fr
+    );
   align-items: start;
 }
 
@@ -294,7 +305,7 @@ textarea {
 }
 
 .activity-list li::before {
-  content: '';
+  content: "";
   position: absolute;
   left: 0;
   top: 0.55rem;

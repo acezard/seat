@@ -1,8 +1,8 @@
-export type RequestStatus = 'pending' | 'triaged' | 'resolved' | 'escalated'
+export type RequestStatus = "pending" | "triaged" | "resolved" | "escalated"
 
-export type Source = 'slack' | 'email' | 'portal'
+export type Source = "slack" | "email" | "portal"
 
-export type Priority = 'low' | 'medium' | 'high'
+export type Priority = "low" | "medium" | "high"
 
 export type Triage = {
   summary: string

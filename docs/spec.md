@@ -6,20 +6,20 @@ Build a small **React + TypeScript** single-page interface that simulates how an
 
 The interface must allow a user (internal operator) to:
 
-* review incoming requests
-* analyze them using a simulated AI
-* inspect contextual data
-* validate or edit AI suggestions
-* trigger an action (workflow)
-* generate and send a reply
+- review incoming requests
+- analyze them using a simulated AI
+- inspect contextual data
+- validate or edit AI suggestions
+- trigger an action (workflow)
+- generate and send a reply
 
 This is a **frontend-only exercise** focused on:
 
-* state modeling
-* async UI flows
-* controlled inputs
-* product thinking (AI + human loop)
-* clean React fundamentals
+- state modeling
+- async UI flows
+- controlled inputs
+- product thinking (AI + human loop)
+- clean React fundamentals
 
 ---
 
@@ -27,20 +27,20 @@ This is a **frontend-only exercise** focused on:
 
 ### Required
 
-* React
-* TypeScript
-* Local component state only
-* Fake async functions using `setTimeout`
+- React
+- TypeScript
+- Local component state only
+- Fake async functions using `setTimeout`
 
 ### Forbidden
 
-* Backend
-* Router
-* External state libraries (Redux, Zustand, etc.)
-* React Query / SWR
-* Form libraries (React Hook Form, Formik)
-* Real LLM APIs
-* Real integrations (Slack, etc.)
+- Backend
+- Router
+- External state libraries (Redux, Zustand, etc.)
+- React Query / SWR
+- Form libraries (React Hook Form, Formik)
+- Real LLM APIs
+- Real integrations (Slack, etc.)
 
 ---
 
@@ -56,19 +56,19 @@ Single screen with 3 columns:
 
 #### Left (25%)
 
-* List of requests
+- List of requests
 
 #### Center (45%)
 
-* Request detail
-* AI triage
-* Reply draft
+- Request detail
+- AI triage
+- Reply draft
 
 #### Right (30%)
 
-* Context panel
-* Workflow / actions
-* Metrics
+- Context panel
+- Workflow / actions
+- Metrics
 
 ---
 
@@ -126,17 +126,17 @@ Provide 5–8 mock requests with varied cases:
 
 ### Examples
 
-* Access issue (Figma, Notion)
-* Hardware issue (laptop slow)
-* HR-related request
-* Finance request (invoice, reimbursement)
-* Ambiguous request (low confidence AI)
+- Access issue (Figma, Notion)
+- Hardware issue (laptop slow)
+- HR-related request
+- Finance request (invoice, reimbursement)
+- Ambiguous request (low confidence AI)
 
 Each request must:
 
-* have different `source`
-* have realistic `context`
-* have empty `triage` initially
+- have different `source`
+- have realistic `context`
+- have empty `triage` initially
 
 ---
 
@@ -148,15 +148,15 @@ Display all requests in a vertical list.
 
 Each item shows:
 
-* title
-* requester
-* status
-* priority (if triaged)
+- title
+- requester
+- status
+- priority (if triaged)
 
 ### Behavior
 
-* Clicking selects the request
-* Selected item is visually highlighted
+- Clicking selects the request
+- Selected item is visually highlighted
 
 ---
 
@@ -164,15 +164,15 @@ Each item shows:
 
 If a request is selected, display:
 
-* title
-* requester
-* source
-* status
-* full request text
+- title
+- requester
+- source
+- status
+- full request text
 
 If none selected:
 
-* show empty state
+- show empty state
 
 ---
 
@@ -184,20 +184,20 @@ Add an **"Analyze" button**.
 
 On click:
 
-* disable button
-* show loading state
-* call fake async function (1–2s delay)
+- disable button
+- show loading state
+- call fake async function (1–2s delay)
 
 ### On success:
 
-* populate `triage`
-* update `status` → `triaged`
-* append to `activityLog`
+- populate `triage`
+- update `status` → `triaged`
+- append to `activityLog`
 
 ### On failure:
 
-* show error message
-* allow retry
+- show error message
+- allow retry
 
 ---
 
@@ -205,18 +205,18 @@ On click:
 
 If `triage` exists, display a form with:
 
-* summary (textarea)
-* category (input/select)
-* priority (select)
-* owner team (input/select)
-* next step (textarea)
-* confidence (readonly or slider)
+- summary (textarea)
+- category (input/select)
+- priority (select)
+- owner team (input/select)
+- next step (textarea)
+- confidence (readonly or slider)
 
 ### Requirements
 
-* All fields must be **controlled inputs**
-* Editing updates the selected request in state
-* No form library allowed
+- All fields must be **controlled inputs**
+- Editing updates the selected request in state
+- No form library allowed
 
 ---
 
@@ -224,11 +224,11 @@ If `triage` exists, display a form with:
 
 Display contextual data:
 
-* department
-* manager
-* apps list
-* device
-* history (list of past actions)
+- department
+- manager
+- apps list
+- device
+- history (list of past actions)
 
 ### Goal
 
@@ -242,20 +242,20 @@ Based on triage, display suggested action:
 
 Examples:
 
-* "Grant access"
-* "Reset password"
-* "Escalate to HR"
+- "Grant access"
+- "Reset password"
+- "Escalate to HR"
 
 ### Buttons
 
-* Confirm action → sets status to `resolved`
-* Escalate → sets status to `escalated`
-* Mark as manual → no automation
+- Confirm action → sets status to `resolved`
+- Escalate → sets status to `escalated`
+- Mark as manual → no automation
 
 ### Behavior
 
-* Update status
-* Append to `activityLog`
+- Update status
+- Append to `activityLog`
 
 ---
 
@@ -265,18 +265,18 @@ Add **"Generate reply" button**
 
 ### Behavior
 
-* fake async call
-* generate `replyDraft`
+- fake async call
+- generate `replyDraft`
 
 ### UI
 
-* textarea (editable)
-* "Send reply" button
+- textarea (editable)
+- "Send reply" button
 
 ### On send:
 
-* append to activity log
-* no real network call
+- append to activity log
+- no real network call
 
 ---
 
@@ -286,11 +286,11 @@ Display a simple timeline:
 
 Examples:
 
-* "Request received"
-* "AI triage completed"
-* "Priority updated"
-* "Workflow executed"
-* "Reply sent"
+- "Request received"
+- "AI triage completed"
+- "Priority updated"
+- "Workflow executed"
+- "Reply sent"
 
 ---
 
@@ -298,9 +298,9 @@ Examples:
 
 Display simple computed values:
 
-* Time to triage (createdAt → triaged)
-* Resolution status
-* AI confidence
+- Time to triage (createdAt → triaged)
+- Resolution status
+- AI confidence
 
 No persistence required.
 
@@ -317,9 +317,9 @@ generateReply(request): Promise<string>
 
 ### Requirements
 
-* Use `setTimeout`
-* Random delay (500–1500ms)
-* Optional random failure (10–20%)
+- Use `setTimeout`
+- Random delay (500–1500ms)
+- Optional random failure (10–20%)
 
 ---
 
@@ -334,13 +334,13 @@ const [selectedId, setSelectedId] = useState<string | null>()
 
 ### Derived state
 
-* selected request via `useMemo`
-* no duplicated state
+- selected request via `useMemo`
+- no duplicated state
 
 ### Updates
 
-* immutable updates only
-* never mutate arrays directly
+- immutable updates only
+- never mutate arrays directly
 
 ---
 
@@ -348,35 +348,35 @@ const [selectedId, setSelectedId] = useState<string | null>()
 
 Must explicitly handle:
 
-* loading (analysis, reply)
-* error (API simulation)
-* empty (no selection)
-* success
+- loading (analysis, reply)
+- error (API simulation)
+- empty (no selection)
+- success
 
 ---
 
 ## 10. UX Expectations
 
-* Clear visual hierarchy
-* Fast to scan
-* Minimal but clean styling
-* No over-engineering
+- Clear visual hierarchy
+- Fast to scan
+- Minimal but clean styling
+- No over-engineering
 
 Focus on:
 
-* readability
-* clarity of AI vs human decisions
-* editability
+- readability
+- clarity of AI vs human decisions
+- editability
 
 ---
 
 ## 11. Non-Functional Requirements
 
-* Type-safe (strict TypeScript)
-* No obvious React anti-patterns
-* Clean component structure (not everything in one file)
-* Avoid unnecessary re-renders
-* Reasonable naming
+- Type-safe (strict TypeScript)
+- No obvious React anti-patterns
+- Clean component structure (not everything in one file)
+- Avoid unnecessary re-renders
+- Reasonable naming
 
 ---
 
@@ -397,12 +397,12 @@ Keep it simple.
 
 ## 13. Out of Scope
 
-* Authentication
-* Real APIs
-* Persistence
-* Real-time updates
-* Notifications
-* Mobile responsiveness
+- Authentication
+- Real APIs
+- Persistence
+- Real-time updates
+- Notifications
+- Mobile responsiveness
 
 ---
 
@@ -412,40 +412,39 @@ This project should demonstrate:
 
 ### Engineering
 
-* clean state modeling
-* async handling
-* controlled forms
-* separation of concerns
+- clean state modeling
+- async handling
+- controlled forms
+- separation of concerns
 
 ### Product thinking
 
-* understanding of AI-assisted workflows
-* human-in-the-loop design
-* handling uncertainty (confidence, editability)
+- understanding of AI-assisted workflows
+- human-in-the-loop design
+- handling uncertainty (confidence, editability)
 
 ### UX clarity
 
-* readable UI
-* obvious flow
-* minimal friction
+- readable UI
+- obvious flow
+- minimal friction
 
 ---
 
 ## 15. Optional Enhancements (if time allows)
 
-* Retry button on failure
-* Confidence-based UI (warning if low)
-* Filtering/sorting requests
-* Highlight AI-generated fields
-* Basic search
+- Retry button on failure
+- Confidence-based UI (warning if low)
+- Filtering/sorting requests
+- Highlight AI-generated fields
+- Basic search
 
 ---
 
 ## 16. Deliverable
 
-* Working local app
-* Minimal README including:
-
-  * architecture choices
-  * trade-offs
-  * what you would do next with more time
+- Working local app
+- Minimal README including:
+  - architecture choices
+  - trade-offs
+  - what you would do next with more time
